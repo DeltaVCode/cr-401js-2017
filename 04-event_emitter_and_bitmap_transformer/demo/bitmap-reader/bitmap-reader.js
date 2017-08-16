@@ -12,7 +12,7 @@ bmp.width = bitmap.readUIntLE(0x12, 4);
 bmp.height = bitmap.readUIntLE(0x16, 4);
 
 bmp.bpp = bitmap.readUIntLE(0x1C, 2);
-bmp.paletteColorCount = bitmap.readUIntLE(0x2E, 4);
+bmp.paletteColorCount = bitmap.readUIntLE(0x2E, 4) || (1 << bmp.bpp);
 
 console.log('bitmap:', bmp);
 
