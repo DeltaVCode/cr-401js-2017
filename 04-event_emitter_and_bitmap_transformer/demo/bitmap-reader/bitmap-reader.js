@@ -18,13 +18,33 @@ console.log('bitmap:', bmp);
 
 const img = bitmap.slice(bmp.offset);
 
-console.log(img.length);
-console.log(img);
+img.fill(0x1c, 0, bmp.width * 10);
 
-img.fill(0x1c, 0, img.length / 2);
-img.fill(0x0f, img.length / 2);
+const bytesPerColor = 4;
+const palette = bitmap.slice(0x36, bmp.paletteColorCount * bytesPerColor);
 
-console.log(img);
+// Standard 16 colors
+const colors = [
+  0x000000,
+  0x800000,
+  0x008000,
+  0x808000,
+  0x000080,
+  0x800080,
+  0x008080,
+  0xc0c0c0,
+  0x808080,
+  0xff0000,
+  0x00ff00,
+  0xffff00,
+  0x0000ff,
+  0xff00ff,
+  0x00ffff,
+  0xffffff,
+];
+colors.forEach((c, i) => palette.writeUIntLE(c, i << 2, 3));
+
+console.log('palette', palette.toString('hex', 0));
 
 console.log(bitmap.toString('hex', bmp.offset, bmp.offset + 100));
 
