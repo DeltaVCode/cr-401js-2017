@@ -1,0 +1,14 @@
+{
+  "name": "bitmap-reader",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bitmap-reader.js",
+  "scripts": {
+    "start": "nodemon ."
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+}
