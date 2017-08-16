@@ -43,4 +43,15 @@ describe('fs-demo', function() {
       })
     })
   })
+
+  describe('#readAll()', function() {
+    it ('should return array of data from all files', function (done) {
+      sut.readAll(['01.txt', '02.txt'], (err, res) => {
+        assert.ifError(err);
+        assert.deepEqual(res, ['uno\r\n','dos\r\n']);
+
+        done();
+      })
+    })
+  })
 })

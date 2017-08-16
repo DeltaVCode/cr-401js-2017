@@ -11,6 +11,25 @@ function readData(filename, cb) {
     });
 }
 
+exports.readAll = function(files, cb) {
+  var results = [];
+  var resultCount = 0;
+
+  files.forEach((file, index) => {
+    readData(file, (err, data) => {
+      if (err) { return cb(err); }
+
+      results[index] = data.toString();
+      resultCount++;
+
+      if (resultCount === files.length) {
+        results.forEach(console.log);
+        cb(null, results);
+      }
+    })
+  })
+}
+
 exports.readTwo = function(file1, file2, cb) {
   var datSmash = '';
   readData(file1, (err, data1) => {
@@ -22,7 +41,7 @@ exports.readTwo = function(file1, file2, cb) {
 
       datSmash += data2;
 
-      cb(err, datSmash);
+      cb(null, datSmash);
     })
   })
 }
