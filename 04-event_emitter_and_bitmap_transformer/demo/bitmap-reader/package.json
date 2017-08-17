@@ -4,11 +4,14 @@
   "description": "",
   "main": "bitmap-reader.js",
   "scripts": {
-    "start": "nodemon ."
+    "start": "nodemon .",
+    "test": "mocha",
+    "test:watch": "mocha -w"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "mocha": "^3.5.0",
     "nodemon": "^1.11.0"
   }
 }
