@@ -1,7 +1,9 @@
 'use strict';
 
 const fs = require('fs');
-const bitmap = fs.readFileSync(`${__dirname}/assets/palette-bitmap.bmp`);
+const filename = 'palette-bitmap.bmp';
+
+const bitmap = fs.readFileSync(`${__dirname}/assets/${filename}`);
 
 const bmp = {};
 
@@ -48,6 +50,6 @@ console.log('palette', palette.toString('hex', 0));
 
 console.log(bitmap.toString('hex', bmp.offset, bmp.offset + 100));
 
-const outPath = `${__dirname}/output/half-and-half.bmp`;
+const outPath = `${__dirname}/output/${filename}`;
 fs.writeFileSync(outPath, bitmap);
 // console.log(fs.readFileSync(outPath).toString('hex', 0, 20));
