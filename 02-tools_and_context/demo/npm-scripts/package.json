@@ -1,0 +1,22 @@
+{
+  "name": "npm-scripts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "test:watch": "mocha -w",
+    "lint": "eslint .",
+    "echo-path": "node echo-path.js",
+    "start": "nodemon ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cross-env": "^5.0.5",
+    "eslint": "^4.4.1",
+    "mocha": "^3.5.0",
+    "nodemon": "^1.11.0"
+  }
+}
