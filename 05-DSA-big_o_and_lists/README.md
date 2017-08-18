@@ -1,4 +1,4 @@
-![DV](https://www.deltavcodeschool.com/wp-content/uploads/DeltaV.png) 04: Lists and Big O Notation
+![DV](https://www.deltavcodeschool.com/wp-content/uploads/DeltaV.png) 05: Lists and Big O Notation
 =====================================
 
 # Big O Resources
