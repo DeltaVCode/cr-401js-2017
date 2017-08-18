@@ -59,7 +59,7 @@
 
 # Whiteboard Exercise (Groups of 3-4)
 * implement a `List` constructor
-* implement `pop()` as a method of your list data structure
+* implement `push()` as a method of your list data structure to create a new `List` with additional element(s)
 * implement `map()` as a method of your list data structure
 * implement `filter()` as a method of your list data structure
 * **bonus:** implement `reduce()` as a method of your list data structure
