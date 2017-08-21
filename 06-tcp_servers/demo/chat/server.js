@@ -1,5 +1,7 @@
 'use strict';
 
+const uuidv4 = require('uuid/v4');
+
 const net = require('net');
 const PORT = process.env.PORT || 3000;
 const server = net.createServer();
@@ -18,10 +20,9 @@ ee.on('@all', function (sender, message) {
   });
 })
 
-let id = 1;
 server.on('connection', function(socket) {
   const client = {
-    id: id++,
+    id: uuidv4(),
     socket
   };
   socket.write(`Welcome. Your ID is ${client.id}.\r\n`);
