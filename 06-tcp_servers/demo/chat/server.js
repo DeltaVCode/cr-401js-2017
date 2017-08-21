@@ -26,6 +26,7 @@ server.on('connection', function(socket) {
   };
   socket.write(`Welcome. Your ID is ${client.id}.\r\n`);
   pool.push(client);
+  console.log(pool.map(c => c.id));
 
   socket.on('data', function (data) {
     console.log(data);
@@ -35,7 +36,14 @@ server.on('connection', function(socket) {
 
   socket.on('error', function (err) {
     console.warn(err);
-  })
+  });
+
+  socket.on('close', function () {
+    console.log(`Client ${client.id} has left.`);
+    pool.splice(pool.indexOf(client), 1);
+    console.log(pool.map(c => c.id));
+  });
+
 });
 
 server.listen(PORT, function() {
