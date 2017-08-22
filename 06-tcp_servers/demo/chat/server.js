@@ -11,6 +11,8 @@ const pool = [];
 const EE = require('events');
 const ee = new EE();
 
+const { parser } = require('./lib/parser');
+
 ee.on('@all', function (sender, message) {
   pool.forEach(receiver => {
     if (receiver.id === sender.id) return;
@@ -32,7 +34,7 @@ server.on('connection', function(socket) {
   socket.on('data', function (data) {
     console.log(data);
 
-    ee.emit('@all', client, data.toString());
+    parser(data.toString(), client, ee.emit.bind(ee));
   });
 
   socket.on('error', function (err) {
