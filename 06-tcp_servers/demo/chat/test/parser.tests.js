@@ -15,32 +15,35 @@ describe('parser', function() {
     });
   }
 
+  it('should emit @quit message', function() {
+    testParser('@quit see ya', '@quit', 'see ya');
+  });
+
   it('should emit @all with message', function() {
     testParser(
-      '@all hello',
-      '@all', 'hello');
+      '@all hello\r\n',
+      '@all', 'hello\r\n');
   });
 
-  it('should emit @nickname with new name', function(done) {
-    parser('@nickname justin', client,
-      (e, c, n) => {
-        assert.equal(e, '@nickname');
-        assert.equal(c, client);
-        assert.equal(n, 'justin');
+  it('should emit @dm with name and message', function() {
+    testParser(
+      '@dm justin sup dude',
+      '@dm', 'justin', 'sup dude');
 
-        done();
-      });
+    testParser(
+      '@dm     justin    sup dude',
+      '@dm', 'justin', 'sup dude');
   });
 
-  it('should emit @nickname with new trimmed name', function(done) {
-    parser('@nickname   justin    ', client,
-      (e, c, n) => {
-        assert.equal(e, '@nickname');
-        assert.equal(c, client);
-        assert.equal(n, 'justin');
+  it('should emit @nickname with new name', function() {
+    testParser(
+      '@nickname justin',
+      '@nickname', 'justin');
+  });
 
-        done();
-      });
+  it('should emit @nickname with new trimmed name', function() {
+    testParser('@nickname   justin    ',
+        '@nickname', 'justin');
   });
 
   it('should emit help if @nickname has a space', function(done) {

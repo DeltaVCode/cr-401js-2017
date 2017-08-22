@@ -13,6 +13,12 @@ const ee = new EE();
 
 const { parser } = require('./lib/parser');
 
+ee.on('@quit', function(sender, message) {
+  console.log(`${sender.id} is quitting: '${message}'.`);
+  ee.emit('@all', sender, message);
+  sender.socket.end('Thanks for chatting! Goodbye.\r\n');
+});
+
 ee.on('@all', function (sender, message) {
   pool.forEach(receiver => {
     if (receiver.id === sender.id) return;
@@ -43,6 +49,7 @@ server.on('connection', function(socket) {
 
   socket.on('close', function () {
     console.log(`Client ${client.id} has left.`);
+    ee.emit('@all', client, `${client.id} has left.`)
     pool.splice(pool.indexOf(client), 1);
     console.log(pool.map(c => c.id));
   });
