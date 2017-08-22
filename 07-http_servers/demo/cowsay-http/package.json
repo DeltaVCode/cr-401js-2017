@@ -1,0 +1,18 @@
+{
+  "name": "cowsay-http",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+	  "moo": "cowsay moo",
+	  "burn": "cowsay -f dragon burn",
+    "start": "node .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cowsay": "^1.1.9"
+  }
+}
