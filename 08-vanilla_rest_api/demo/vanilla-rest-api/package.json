@@ -13,10 +13,12 @@
   "devDependencies": {
     "chai": "^4.1.1",
     "mocha": "^3.5.0",
-    "superagent": "^3.6.0"
+    "superagent": "^3.6.0",
+    "supertest": "^3.0.0"
   },
   "scripts": {
     "test": "mocha",
+    "test:watch": "mocha -w",
     "start": "node server.js"
   },
   "keywords": [],
