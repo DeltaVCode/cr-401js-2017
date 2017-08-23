@@ -10,11 +10,10 @@ describe('GET /', function () {
       .get('/')
       .expect(200)
       .expect('routed')
-      .end((err, res) => {
-        if (err) return done(err);
-
-        expect(res.headers['content-type']).to.equal('text/plain');
-        done();
+      .expect('content-type', 'text/plain')
+      .expect(res => {
+        expect(res.files).to.be.undefined
       })
+      .end(done);
   })
 });
