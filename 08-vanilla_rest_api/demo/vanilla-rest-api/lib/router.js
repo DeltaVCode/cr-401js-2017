@@ -8,9 +8,19 @@ const Router = module.exports = function() {
 
 Router.prototype.route = function() {
   return (req, res) => {
-     console.log(req.method, req.url);
+    parseUrl(req)
+      .then(() => {
+        console.log(req.method, req.url);
 
-     res.write('routed');
-     res.end();
+        res.write('routed');
+        res.end();
+      })
+      .catch(err => {
+        res.writeHead(400, {
+          'Content-Type': 'text/plain'
+        });
+        res.write(err.message);
+        res.end();
+      });
   };
 };
