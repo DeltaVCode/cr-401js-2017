@@ -8,9 +8,12 @@ const Router = module.exports = function() {
 
 Router.prototype.route = function() {
   return (req, res) => {
-    parseUrl(req)
-      .then(() => {
+    Promise.all([
+      parseUrl(req),
+      parseJSON(req),
+    ]).then(() => {
         console.log(req.method, req.url);
+        console.log('body', req.body);
 
         res.write('routed');
         res.end();
