@@ -35,3 +35,33 @@ describe('Routes', function () {
       .end(done);
   });
 });
+
+describe('Simple Resource', function () {
+  var note = null;
+
+  describe('POST /note', function() {
+    it('should save body', function (done) {
+      request.post('/note')
+        .send({ note: 'this is a note' })
+        .expect(200)
+        .expect(res => {
+          expect(res.body.note).to.equal('this is a note');
+          expect(res.body.id).to.not.be.empty;
+          note = res.body;
+        })
+        .end(done);
+    });
+  });
+
+  describe('GET /note', function() {
+    it('should return a note', function (done) {
+      request.get(`/note?id=${note.id}`)
+        .expect(200)
+        .expect(res => {
+          expect(res.body.note).to.equal(note.note);
+          expect(res.body.id).to.equal(note.id);
+        })
+        .end(done);
+    });
+  });
+});
