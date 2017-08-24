@@ -3,6 +3,17 @@
 const path = require('path');
 const fs = require('fs');
 
+/* Optional:
+const Promise = require('bluebird');
+const fs = Promise.promisifyAll(require('fs'), {suffix: 'Async'});
+
+fs.writeFileAsync(...)
+fs.readFileAsync(...)
+*/
+
+const writeFileAsync = promisify(fs.writeFile);
+const readFileAsync = promisify(fs.readFile);
+
 module.exports = exports = {};
 
 exports.createItem = function(schemaName, item) {
@@ -12,33 +23,25 @@ exports.createItem = function(schemaName, item) {
   const filePath = `${__dirname}/../data/${schemaName}/${item.id}.json`;
   ensureDirectoryExistence(filePath);
 
-  return new Promise((resolve, reject) => {
-    fs.writeFile(
-      filePath,
-      JSON.stringify(item),
-      err => {
-        if (err) return reject(err);
-        resolve(item);
-      });
-  });
+  return writeFileAsync(filePath, JSON.stringify(item))
+    .then(() => item);
 };
 
 exports.fetchItem = function(schemaName, id) {
-  return new Promise((resolve, reject) => {
-    if (!schemaName) return reject(new Error('expected schema name'));
-    if (!id) return reject(new Error('expected id'));
+  if (!schemaName) return Promise.reject(new Error('expected schema name'));
+  if (!id) return Promise.reject(new Error('expected id'));
 
-    const filePath = `${__dirname}/../data/${schemaName}/${id}.json`;
-    if (!fs.existsSync(path.dirname(filePath)))
-      return reject(new Error('schema not found'));
+  const filePath = `${__dirname}/../data/${schemaName}/${id}.json`;
+  if (!fs.existsSync(path.dirname(filePath)))
+    return Promise.reject(new Error('schema not found'));
 
-    // TODO: reject(new Error('item not found'));
+  // TODO: Promise.reject(new Error('item not found'));
 
-    var data = fs.readFileSync(filePath);
-    // TODO: catch/reject parsing error
-    var item = JSON.parse(data.toString());
-    resolve(item);
-  });
+  return readFileAsync(filePath)
+    .then(data => {
+      // TODO: catch/reject parsing error
+      return JSON.parse(data.toString());
+    });
 };
 
 // https://stackoverflow.com/a/34509653
@@ -49,4 +52,16 @@ function ensureDirectoryExistence(filePath) {
   }
   ensureDirectoryExistence(dirname);
   fs.mkdirSync(dirname);
+}
+
+function promisify (fn) {
+  return (...args) => {
+    return new Promise((resolve, reject) => {
+      fn(...args,
+        (err, data) => {
+          if (err) return reject(err);
+          resolve(data);
+        });
+    });
+  };
 }
