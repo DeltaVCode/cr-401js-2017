@@ -11,11 +11,16 @@ exports.createItem = function(schemaName, item) {
 
   const filePath = `${__dirname}/../data/${schemaName}/${item.id}.json`;
   ensureDirectoryExistence(filePath);
-  fs.writeFileSync(
-    filePath,
-    JSON.stringify(item));
 
-  return Promise.resolve(item);
+  return new Promise((resolve, reject) => {
+    fs.writeFile(
+      filePath,
+      JSON.stringify(item),
+      err => {
+        if (err) return reject(err);
+        resolve(item);
+      });
+  });
 };
 
 exports.fetchItem = function(schemaName, id) {
