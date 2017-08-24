@@ -1,15 +1,13 @@
 'use strict';
 
+const response = require('../lib/response');
+
 module.exports = function (router) {
   router.get('/', (req, res) => {
     console.log(req.method, req.url.href);
     console.log('body', req.body);
 
-    res.writeHead(200, {
-      'Content-Type': 'text/plain'
-    });
-    res.write('routed');
-    res.end();
+    response.sendText(res, 200, 'routed');
   });
 
   const uuid = require('uuid');
@@ -22,29 +20,19 @@ module.exports = function (router) {
     storage[note.id] = note;
     console.log(note);
 
-    res.writeHead(200, {
-      'Content-Type': 'application/json'
-    });
-    res.write(JSON.stringify(note));
-    res.end();
+    response.sendJSON(res, 200, note);
   });
 
   router.get('/note', (req, res) => {
     if (!req.url.query.id) {
-      // Bad request
-      return res.end();
+      response.sendText(res, 400, 'bad request');
     }
 
     var note = storage[req.url.query.id];
     if (note) {
-      res.writeHead(200, {
-        'Content-Type': 'application/json'
-      });
-      res.write(JSON.stringify(note));
-      res.end();
+      response.sendJSON(res, 200, note);
     } else {
-      // 404
-      res.end();
+      response.sendText(res, 404, 'not found');
     }
   });
 
