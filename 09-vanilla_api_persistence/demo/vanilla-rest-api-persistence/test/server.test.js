@@ -51,6 +51,16 @@ describe('Simple Resource', function () {
         })
         .end(done);
     });
+
+    it('should reject invalid JSON body', function (done) {
+      request.post('/note')
+        .send('[x]')
+        .set('content-type', 'application/json')
+        .expect(400)
+        .expect('content-type', 'text/plain')
+        .expect('Unexpected token x in JSON at position 1')
+        .end(done);
+    })
   });
 
   describe('GET /note', function() {

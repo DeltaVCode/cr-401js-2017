@@ -3,7 +3,7 @@
 const { expect } = require('chai');
 const storage = require('../lib/storage');
 
-describe.only('storage', function() {
+describe('storage', function() {
   const schemaName = 'people';
   const itemToSave = { id: 12, name: 'Keith' };
 

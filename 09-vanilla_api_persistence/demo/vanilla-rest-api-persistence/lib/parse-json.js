@@ -6,6 +6,7 @@ module.exports = function(req) {
   }
 
   if (req.headers['content-type'] !== 'application/json') {
+    console.warn('Content-Type', req.headers['content-type']);
     return Promise.resolve(req);
   }
 
