@@ -82,3 +82,13 @@ LinkedList.prototype.insert = function(index, value) {
   newNode.next = node.next;
   node.next = newNode;
 }
+
+LinkedList.prototype.middle = function() {
+  if (!this.head) return null;
+
+  let cur = this.head, mid = cur;
+  while (cur = cur && cur.next && cur.next.next)
+    mid = mid.next;
+
+  return mid.value;
+}

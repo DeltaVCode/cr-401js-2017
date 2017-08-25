@@ -98,4 +98,27 @@ describe('LinkedList', function() {
       assert.equal(ll.length, 5);
     })
   })
+  describe('middle', function() {
+    it('returns null for empty list', function() {
+      var ll = new LL();
+
+      var mid = ll.middle();
+
+      assert.strictEqual(mid, null);
+    });
+
+    it('returns middle element from odd-count list', function() {
+      assert.equal(new LL(1).middle(), 1);
+      assert.equal(new LL(1, 2, 3).middle(), 2);
+      assert.equal(new LL(1, 2, 3, 4, 5).middle(), 3);
+      assert.equal(new LL(1, 2, 3, 4, 5, 6, 7).middle(), 4);
+    });
+
+    it('returns left-of-middle element from even-count list', function() {
+      assert.equal(new LL(1, 2).middle(), 1);
+      assert.equal(new LL(1, 2, 3, 4).middle(), 2);
+      assert.equal(new LL(1, 2, 3, 4, 5, 6).middle(), 3);
+      assert.equal(new LL(1, 2, 3, 4, 5, 6, 7, 8).middle(), 4);
+    });
+  })
 });
