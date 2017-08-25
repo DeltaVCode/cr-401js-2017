@@ -13,9 +13,8 @@ describe('LinkedList', function() {
       assert.equal(ll.length, 0);
     })
     it ('should be two for list with two things', function() {
-      var ll = new LL();
-      ll.prepend(17);
-      ll.prepend(Math.PI);
+      var ll = new LL(17, Math.PI);
+      assert.deepEqual(ll.toArray(), [17, Math.PI]);
 
       var count = ll.count();
 

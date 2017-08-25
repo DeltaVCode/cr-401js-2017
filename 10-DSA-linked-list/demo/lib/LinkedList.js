@@ -1,8 +1,14 @@
 'use strict';
 
-const LinkedList = module.exports = function () {
+const LinkedList = module.exports = function (...values) {
   this.head = null;
-  this.length = 0;
+  this.length = values.length;
+
+  values.reduce(
+    (prev, v) => prev ?
+      prev.next = new Node(v) :
+      this.head = new Node(v),
+    null);
 };
 
 function Node(value) {
