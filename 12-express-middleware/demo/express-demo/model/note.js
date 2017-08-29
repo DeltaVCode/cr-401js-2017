@@ -20,3 +20,24 @@ Note.createNote = function(body) {
   let note = new Note(body.name, body.content);
   return storage.createItem('note', note);
 }
+
+Note.fetchNote = function(id) {
+  debug(`fetchNote(${id})`);
+  return storage.fetchItem('note', id);
+}
+
+Note.updateNote = function(id, body) {
+  debug(`updateNote(${id})`);
+
+  return storage.fetchItem('note', id)
+    .then(note => {
+      for (var prop in note) {
+        if (prop === 'id') continue;
+
+        if (prop in body) {
+          note[prop] = body[prop];
+        }
+      }
+      return note;
+    });
+}

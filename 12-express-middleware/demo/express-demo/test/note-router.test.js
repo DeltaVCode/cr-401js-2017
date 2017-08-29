@@ -19,4 +19,46 @@ describe('/api/note routes', function () {
         .end(done);
     });
   });
+
+  describe('PUT', function () {
+    before(function (done) {
+      Note.createNote(exampleNote)
+        .then(note => {
+          this.putNote = note;
+          done();
+        })
+        .catch(done);
+    });
+    after(function (done) {
+      if (this.putNote) {
+        // TODO: Note.deleteNote(this.putNote.id);
+        done();
+      }
+    });
+
+    it('should update a note by id', function (done) {
+      request
+        .put(`/api/note?id=${this.putNote.id}`)
+        .send({ name: 'updated', newProp: 'should not be found' })
+        .expect(200)
+        .expect(res => {
+          expect(res.body.id).to.equal(this.putNote.id);
+          expect(res.body.name).to.equal('updated');
+          expect(res.body.content).to.equal(this.putNote.content);
+          expect(res.body.newProp).to.be.undefined;
+        })
+        .expect({
+          id: this.putNote.id,
+          name: 'updated',
+          content: this.putNote.content
+        })
+        /*
+        .expect({
+          ...this.putNote,
+          name: 'updated'
+        })
+        */
+        .end(done);
+    })
+  })
 });
