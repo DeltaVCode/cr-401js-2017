@@ -24,6 +24,20 @@ describe('/api/note routes', function () {
         })
         .end(done);
     });
+    it('should return 400 without name', function (done) {
+      request
+        .post('/api/note')
+        .send({ content: 'blah' })
+        .expect(400)
+        .end(done);
+    });
+    it('should return 400 without content', function (done) {
+      request
+        .post('/api/note')
+        .send({ name: 'blah' })
+        .expect(400)
+        .end(done);
+    });
   });
 
   describe('PUT', function () {

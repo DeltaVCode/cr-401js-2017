@@ -6,6 +6,9 @@ const uuid = require('uuid/v4');
 const Note = module.exports = function (name, content) {
   debug('constructor');
 
+  if (!name) throw new createError(400, 'name is required');
+  if (!content) throw new createError(400, 'content is required');
+
   this.id = uuid();
   this.name = name;
   this.content = content;
