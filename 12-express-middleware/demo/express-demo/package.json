@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "debug": "^3.0.1",
-    "express": "^4.15.4"
+    "express": "^4.15.4",
+    "http-errors": "^1.6.2"
   }
 }

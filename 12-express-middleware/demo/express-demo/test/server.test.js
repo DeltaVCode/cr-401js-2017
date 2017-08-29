@@ -10,4 +10,10 @@ describe('Express Infrastructure', function () {
       .expect(404)
       .end(done);
   });
+  it('should handle 500', function (done) {
+    request
+      .get('/500')
+      .expect(500)
+      .end(done);
+  });
 })
