@@ -1,0 +1,24 @@
+{
+  "name": "express-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "cross-env DEBUG=app:* nodemon .",
+    "test:watch": "cross-env DEBUG=app:* mocha -w",
+    "test": "mocha"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.1.1",
+    "cross-env": "^5.0.5",
+    "mocha": "^3.5.0",
+    "supertest": "^3.0.0"
+  },
+  "dependencies": {
+    "debug": "^3.0.1",
+    "express": "^4.15.4"
+  }
+}
