@@ -15,8 +15,7 @@ exports.createItem = function(schemaName, item){
 
   let json = JSON.stringify(item);
   return fs.writeFileProm(`${__dirname}/../data/${schemaName}/${item.id}.json`, json)
-  .then( () => item)
-  .catch( err => Promise.reject(createError(500, err.message)));
+  .then( () => item);
 };
 
 exports.fetchItem = function(schemaName, id){
@@ -31,7 +30,7 @@ exports.fetchItem = function(schemaName, id){
       let item = JSON.parse(data.toString())
       return item;
     } catch (err) {
-      return Promise.reject(createError(500, err.message));
+      return Promise.reject(err);
     }
   })
   .catch(err => Promise.reject(createError(404, err.message)));

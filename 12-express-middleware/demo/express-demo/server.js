@@ -5,9 +5,12 @@ const debug = require('debug')('app:server');
 const PORT = process.env.PORT || 3000;
 const app = module.exports = express();
 
+app.use(require('./lib/cors-middleware'));
+
 app.get('/500', (req, res, next) => {
   req.whatever();
 })
+app.use(require('./routes/note'));
 app.use(require('./lib/error-middleware'));
 
 debug('server parent',
