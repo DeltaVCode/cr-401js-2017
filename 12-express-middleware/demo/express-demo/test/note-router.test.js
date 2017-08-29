@@ -7,6 +7,11 @@ const Note = require('../model/note');
 describe('/api/note routes', function () {
   const exampleNote = new Note('Thing to do', 'Content of note');
   describe('POST', function () {
+    afterEach(function (done) {
+      if (!this.postNote) return done();
+      // TODO: Note.deleteNote(this.postNote.id);
+      done();
+    });
     it('should return 200 with JSON of note', function (done) {
       request
         .post('/api/note')
@@ -15,13 +20,14 @@ describe('/api/note routes', function () {
         .expect(res => {
           expect(res.body.name).to.equal(exampleNote.name);
           expect(res.body.content).to.equal(exampleNote.content);
+          this.postNote = res.body;
         })
         .end(done);
     });
   });
 
   describe('PUT', function () {
-    before(function (done) {
+    beforeEach(function (done) {
       Note.createNote(exampleNote)
         .then(note => {
           this.putNote = note;
@@ -29,11 +35,10 @@ describe('/api/note routes', function () {
         })
         .catch(done);
     });
-    after(function (done) {
-      if (this.putNote) {
-        // TODO: Note.deleteNote(this.putNote.id);
-        done();
-      }
+    afterEach(function (done) {
+      if (!this.putNote) return done();
+      // TODO: Note.deleteNote(this.putNote.id);
+      done();
     });
 
     it('should update a note by id', function (done) {
