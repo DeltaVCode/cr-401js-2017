@@ -1,0 +1,29 @@
+{
+  "name": "mongo-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test:watch": "cross-env DEBUG=app:* mocha -w",
+    "test": "cross-env DEBUG=app:* mocha",
+    "start": "cross-env DEBUG=* nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "cors": "^2.8.4",
+    "debug": "^3.0.1",
+    "express": "^4.15.4",
+    "mongoose": "^4.11.9",
+    "morgan": "^1.8.2"
+  },
+  "devDependencies": {
+    "chai": "^4.1.1",
+    "cross-env": "^5.0.5",
+    "mocha": "^3.5.0",
+    "nodemon": "^1.11.0",
+    "supertest": "^3.0.0"
+  }
+}
