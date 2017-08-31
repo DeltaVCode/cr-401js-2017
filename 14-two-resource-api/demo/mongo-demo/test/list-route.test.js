@@ -4,6 +4,7 @@ const request = require('supertest')(app);
 const { expect } = require('chai');
 
 const List = require('../model/list');
+const Note = require('../model/note');
 
 describe('list routes', function () {
   describe('POST /api/list', function () {
@@ -49,6 +50,36 @@ describe('list routes', function () {
           .expect(200)
           .expect(res => {
             expect(res.body.name).to.equal(this.testList.name);
+          })
+      });
+    });
+
+    describe('with a valid id containing notes', function () {
+      before(function () {
+        return new List({ name: 'get me', created: new Date() })
+          .save()
+          .then(list => {
+            this.testList = list;
+            return List.findByIdAndAddNote(list._id, { title: 'me too' })
+              .then(note => this.testNote = note);
+          });
+      });
+      after(function () {
+        return Promise.all([
+          List.remove({}),
+          Note.remove({}),
+        ]);
+      });
+
+      it('should return a list', function () {
+        return request
+          .get(`/api/list/${this.testList._id}`)
+          .expect(200)
+          .expect(res => {
+            expect(res.body.name).to.equal(this.testList.name);
+            expect(res.body.notes).to.not.be.empty;
+            console.log(res.body);
+            expect(res.body.notes[0].title).to.equal('me too');
           })
       });
     });

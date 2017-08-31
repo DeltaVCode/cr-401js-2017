@@ -18,6 +18,7 @@ router.post('/api/list', jsonParser, function (req, res, next) {
 router.get('/api/list/:id', function (req, res, next) {
   debug(`GET /api/list/${req.params.id}`);
   List.findById(req.params.id)
+    .populate('notes')
     .then(list => res.json(list))
     .catch(next);
 });
