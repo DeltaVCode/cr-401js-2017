@@ -17,6 +17,7 @@ mongoose.connection.db || mongoose.connect(MONGODB_URI);
 
 app.use(cors());
 app.use(morgan('dev'));
+app.use(require('./route/list'));
 app.use(require('./route/note'));
 app.use(require('./lib/error-middleware'));
 
