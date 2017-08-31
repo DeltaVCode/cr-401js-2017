@@ -2,7 +2,9 @@
 
 const Router = require('express').Router;
 const jsonParser = require('body-parser').json();
-const debug = require('debug')('note:route');
+const debug = require('debug')('app:route/note');
+
+const List = require('../model/list');
 const Note = require('../model/note');
 
 const router = module.exports = new Router();
@@ -30,6 +32,14 @@ router.put('/api/note/:id', function (req, res, next) {
     req.params.id,
     req.body,
     { new: true })
+    .then(note => res.json(note))
+    .catch(next);
+});
+
+router.post('/api/list/:listID/note', jsonParser, function (req, res, next) {
+  debug(`POST /api/note/${req.params.listID}/note`);
+  debug('note body', req.body);
+  List.findByIdAndAddNote(req.params.listID, req.body)
     .then(note => res.json(note))
     .catch(next);
 });

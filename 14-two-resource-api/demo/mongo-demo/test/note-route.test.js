@@ -3,6 +3,7 @@ const app = require('../server');
 const request = require('supertest')(app);
 const { expect } = require('chai');
 
+const List = require('../model/list');
 const Note = require('../model/note');
 
 describe('note routes', function () {
@@ -77,3 +78,33 @@ describe('note routes', function () {
     })
   })
 });
+
+describe('list note routes', function () {
+  describe('POST /api/list/:listId/note', function () {
+    before(function () {
+      return new List({ name: 'add note to me' })
+        .save()
+        .then(saved => this.testList = saved);
+    });
+    after(function () {
+      return Promise.all([
+        List.remove({}),
+        Note.remove({}),
+      ]);
+    });
+
+    it('should create note', function() {
+      return request
+        .post(`/api/list/${this.testList._id}/note`)
+        .send({ title: 'new note' })
+        .expect(200)
+        .expect(res => {
+          console.log('res.body', res.body);
+          expect(res.body.title).to.equal('new note');
+          // TODO: expect(res.body.list.name).to.equal('add note to me');
+        });
+    })
+  });
+
+  // TODO: request.get(`/api/list/${this.testList._id}/note/{this.testNote._id}`)
+})

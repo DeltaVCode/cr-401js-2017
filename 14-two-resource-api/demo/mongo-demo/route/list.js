@@ -2,7 +2,7 @@
 
 const Router = require('express').Router;
 const jsonParser = require('body-parser').json();
-const debug = require('debug')('list:route');
+const debug = require('debug')('app:route/list');
 const List = require('../model/list');
 
 const router = module.exports = new Router();
