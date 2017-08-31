@@ -21,3 +21,15 @@ router.get('/api/note/:id', function (req, res, next) {
     .then(note => res.json(note))
     .catch(next);
 });
+
+//router.delete('')
+
+router.put('/api/note/:id', function (req, res, next) {
+  debug(`PUT /api/note/${req.params.id}`);
+  Note.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true })
+    .then(note => res.json(note))
+    .catch(next);
+});

@@ -49,4 +49,38 @@ describe('note model', function () {
         })
     })
   })
+
+  describe('findByIdAndUpdate', function () {
+    before(function () {
+      return (
+        new Note({
+          title: 'update me',
+          created: new Date()
+        })
+        .save()
+        .then(saved => this.updateMe = saved)
+      );
+    });
+
+    it('should find by id and update', function () {
+      return Note.findByIdAndUpdate(
+        this.updateMe._id,
+        { title: 'updated' },
+      /*
+      ).then(note => {
+        expect(note.title).to.equal('update me');
+        console.log(note);
+        return Note.findById(this.updateMe._id)
+          .then(note2 => {
+            expect(note2.title).to.equal('updated');
+            console.log(note2);
+          })
+      });
+      */
+        { new: true })
+        .then(note => {
+          expect(note.title).to.equal('updated');
+        });
+    })
+  });
 })

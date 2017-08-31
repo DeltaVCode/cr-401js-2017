@@ -53,4 +53,27 @@ describe('note routes', function () {
       });
     });
   })
+
+  describe('PUT /api/note/:id', function () {
+    before(function () {
+      return (
+        new Note({
+          title: 'update me',
+          created: new Date()
+        })
+        .save()
+        .then(saved => this.updateMe = saved)
+      );
+    });
+    it('should return a thing', function () {
+      return request
+        .put(`/api/note/${this.updateMe._id}`)
+        .expect(200);
+    });
+    it('should return 404 given missing id', function () {
+      return request
+        .put('/api/note/oops')
+        .expect(404);
+    })
+  })
 });
