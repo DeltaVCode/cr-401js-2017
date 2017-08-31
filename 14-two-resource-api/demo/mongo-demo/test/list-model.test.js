@@ -68,4 +68,34 @@ describe('list model', function () {
         });
     })
   });
+
+  describe('findByIdAndAddNote', function () {;
+    before(function () {
+      return (
+        new List({
+          name: 'add list to me',
+        })
+        .save()
+        .then(saved => this.testList = saved)
+      );
+    });
+
+    it('should add note to list', function () {
+      return List.findByIdAndAddNote(
+        this.testList._id,
+        { title: 'note' })
+        .then(note => {
+          expect(note.title).to.equal('note');
+          expect(note.listID.toString())
+            .to.equal(this.testList._id.toString());
+
+          return List.findById(this.testList._id)
+            .then(list => {
+              expect(list.notes.length).to.equal(1);
+              expect(list.notes[0].toString())
+                .to.equal(note._id.toString());
+            });
+        });
+    });
+  })
 })
