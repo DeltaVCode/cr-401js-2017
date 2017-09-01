@@ -6,7 +6,7 @@ const { expect } = require('chai');
 const List = require('../model/list');
 const Note = require('../model/note');
 
-describe('list routes', function () {
+describe.only('list routes', function () {
   describe('POST /api/list', function () {
     describe('with a valid body', function () {
       after(function () {
@@ -31,6 +31,13 @@ describe('list routes', function () {
       it('should return 404', function () {
         return request
           .get('/api/list/oops')
+          .expect(404);
+      });
+    });
+    describe('with an invalid id that looks like an id', function () {
+      it('should return 404', function () {
+        return request
+          .get('/api/list/deadbeefdeadbeefdeadbeef')
           .expect(404);
       });
     });
@@ -107,4 +114,28 @@ describe('list routes', function () {
         .expect(404);
     })
   })
+
+  describe('DELETE /api/list/:id', function () {
+    before(function () {
+      return new List({ name: 'delete me' })
+        .save()
+        .then(saved => this.deleteMe = saved);
+    });
+    after(function () {
+      return List.remove({});
+    });
+
+    it('should delete the list', function () {
+      return request
+        .delete(`/api/list/${this.deleteMe._id}`)
+        .expect(204)
+        .then(() => {
+          return Promise.all([
+            List.findById(this.deleteMe._id)
+              .then(list => expect(list).to.be.null),
+            request.get(`/api/list/${this.deleteMe._id}`).expect(404),
+          ]);
+        })
+    })
+  });
 });

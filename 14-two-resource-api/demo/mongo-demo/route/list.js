@@ -19,11 +19,16 @@ router.get('/api/list/:id', function (req, res, next) {
   debug(`GET /api/list/${req.params.id}`);
   List.findById(req.params.id)
     .populate('notes')
-    .then(list => res.json(list))
+    .then(list => list ? res.json(list) : res.sendStatus(404))
     .catch(next);
 });
 
-//router.delete('')
+router.delete('/api/list/:id', function (req, res, next) {
+  debug(`DELETE /api/list/{req.params.id}`);
+  List.findByIdAndRemove(req.params.id)
+    .then(list => res.sendStatus(204))
+    .catch(next);
+});
 
 router.put('/api/list/:id', function (req, res, next) {
   debug(`PUT /api/list/${req.params.id}`);

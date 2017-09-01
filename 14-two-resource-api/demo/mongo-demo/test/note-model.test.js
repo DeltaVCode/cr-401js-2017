@@ -83,4 +83,22 @@ describe('note model', function () {
         });
     })
   });
+
+  describe('findByIdAndRemove', function () {
+    before(function () {
+      return new Note({ title: 'delete me' })
+        .save()
+        .then(saved => this.deleteMe = saved);
+    });
+
+    it('should find by id and delete', function () {
+      return Note.findByIdAndRemove(this.deleteMe._id)
+        .then(note => {
+          return Note.findById(this.deleteMe._id)
+            .then(deleted => {
+              expect(deleted).to.be.null
+            });
+        });
+    })
+  });
 })

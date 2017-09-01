@@ -69,6 +69,24 @@ describe('list model', function () {
     })
   });
 
+  describe('findByIdAndRemove', function () {
+    before(function () {
+      return new List({ name: 'delete me' })
+        .save()
+        .then(saved => this.deleteMe = saved);
+    });
+
+    it('should find by id and delete', function () {
+      return List.findByIdAndRemove(this.deleteMe._id)
+        .then(note => {
+          return List.findById(this.deleteMe._id)
+            .then(deleted => {
+              expect(deleted).to.be.null
+            });
+        });
+    })
+  });
+
   describe('findByIdAndAddNote', function () {;
     before(function () {
       return (
