@@ -14,7 +14,7 @@ require('./lib/mongoose-connect');
 app.use(morgan('dev'));
 app.use(cors());
 
-
+app.use(require('./lib/basic-auth-middleware'));
 
 app.use(require('./lib/error-middleware'));
 
