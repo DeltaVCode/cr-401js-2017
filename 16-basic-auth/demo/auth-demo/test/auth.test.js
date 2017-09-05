@@ -34,4 +34,22 @@ describe('Auth Routes', function () {
         .expect(res => debug(res.text));
     });
   });
+
+  describe('POST /api/signup', function () {
+    describe('with a valid body', function () {
+      after(function () {
+        return User.remove({});
+      });
+
+      it('should succeed', function () {
+        return request
+          .post('/api/signup')
+          .send(exampleUser)
+          .expect(200)
+          .expect(res => debug(res.text));
+      });
+    });
+
+    // TODO: Test invalid bodies!
+  });
 });

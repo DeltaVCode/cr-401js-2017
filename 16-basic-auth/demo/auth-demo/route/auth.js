@@ -15,6 +15,20 @@ router.get('/api/signin', basicAuth, function (req, res, next) {
 
   User.findOne({ username: req.auth.username })
     .then(user => user.comparePasswordHash(req.auth.password))
-    .then(user => res.send('welcome'))
+    .then(() => res.send('welcome'))
+    .catch(next);
+});
+
+router.post('/api/signup', jsonParser, function (req, res, next) {
+  debug('POST /api/signup');
+
+  let password = req.body.password;
+  delete req.body.password;
+
+  let user = new User(req.body);
+
+  user.generatePasswordHash(password)
+    .then(user => user.save())
+    .then(() => res.send('welcome'))
     .catch(next);
 });

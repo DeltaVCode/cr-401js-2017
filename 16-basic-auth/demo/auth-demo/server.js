@@ -14,8 +14,15 @@ require('./lib/mongoose-connect');
 app.use(morgan('dev'));
 app.use(cors());
 
+// Public routes here
+
+// Authorize
 app.use(require('./route/auth'));
+
+// Require auth after here
 app.use(require('./lib/basic-auth-middleware'));
+
+// Private routes here
 
 app.use(require('./lib/error-middleware'));
 
