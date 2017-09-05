@@ -13,7 +13,7 @@ const Schema = mongoose.Schema;
 const userSchema = Schema({
   username: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
-  password: { type: String },
+  password: { type: String, required: true },
   findHash: { type: String, unique: true },
 });
 
@@ -21,6 +21,7 @@ userSchema.methods.generatePasswordHash = function (password) {
   debug('generatePasswordHash');
 
   return new Promise((resolve, reject) => {
+    if (!password) return resolve(this);
     bcrypt.hash(password, 10, (err, hash) => {
       if (err) return reject(err);
       this.password = hash;
@@ -81,11 +82,7 @@ User.createUser = function(body) {
   debug('createUser', body);
 
   const { password, ..._user } = body;
-  if (!password)
-    return Promise.reject(createError(400, 'password required'));
-
-  let user = new User(_user);
-  return user.validate()
-    .then(() => user.generatePasswordHash(password))
+  return new User(_user)
+    .generatePasswordHash(password)
     .then(user => user.save());
 }
