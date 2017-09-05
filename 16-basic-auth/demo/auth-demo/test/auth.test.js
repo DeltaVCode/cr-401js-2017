@@ -18,9 +18,7 @@ const exampleUser = {
 describe('Auth Routes', function () {
   describe('GET /api/signin', function () {
     before(function () {
-      return new User(exampleUser)
-        .generatePasswordHash(exampleUser.password)
-        .then(user => user.save())
+      return User.createUser(exampleUser)
         .then(user => this.testUser = user);
     });
     after(function () {
@@ -55,6 +53,42 @@ describe('Auth Routes', function () {
       });
     });
 
-    // TODO: Test invalid bodies!
+    describe('without body', function () {
+      after(function () {
+        return User.remove({});
+      });
+
+      it('should fail', function () {
+        return request
+          .post('/api/signup')
+          .expect(400);
+      });
+    });
+
+    describe('with password only', function () {
+      after(function () {
+        return User.remove({});
+      });
+
+      it('should fail', function () {
+        return request
+          .post('/api/signup')
+          .send({ password: 'password!' })
+          .expect(400);
+      });
+    });
+
+    describe('with valid body other than password', function () {
+      after(function () {
+        return User.remove({});
+      });
+
+      it('should fail', function () {
+        return request
+          .post('/api/signup')
+          .send({ username: 'ejemplo', email: 'ejemplo@example.com' })
+          .expect(400);
+      });
+    });
   });
 });

@@ -23,13 +23,7 @@ router.get('/api/signin', basicAuth, function (req, res, next) {
 router.post('/api/signup', jsonParser, function (req, res, next) {
   debug('POST /api/signup');
 
-  let password = req.body.password;
-  delete req.body.password;
-
-  let user = new User(req.body);
-
-  user.generatePasswordHash(password)
-    .then(user => user.save())
+  User.createUser(req.body)
     .then(user => user.generateToken())
     .then(token => res.send(token))
     .catch(next);

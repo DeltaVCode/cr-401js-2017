@@ -13,7 +13,7 @@ const Schema = mongoose.Schema;
 const userSchema = Schema({
   username: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+  password: { type: String },
   findHash: { type: String, unique: true },
 });
 
@@ -75,4 +75,17 @@ userSchema.methods.generateToken = function () {
   });
 };
 
-module.exports = mongoose.models.user || mongoose.model('user', userSchema);
+const User = module.exports = mongoose.models.user || mongoose.model('user', userSchema);
+
+User.createUser = function(body) {
+  debug('createUser', body);
+
+  const { password, ..._user } = body;
+  if (!password)
+    return Promise.reject(createError(400, 'password required'));
+
+  let user = new User(_user);
+  return user.validate()
+    .then(() => user.generatePasswordHash(password))
+    .then(user => user.save());
+}

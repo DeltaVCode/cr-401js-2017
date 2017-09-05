@@ -10,6 +10,7 @@ module.exports = function (err, req, res, next) {
   if (err.status) {
     debug('user error', err.message);
   } else if (err.name === 'ValidationError') {
+    debug('validation', err.message);
     err = createError(400, err.message);
   } else {
     debug('server error');
