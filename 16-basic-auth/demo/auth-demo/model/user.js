@@ -1,7 +1,8 @@
 'use strict';
 
+const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
-const creatError = require('http-errors');
+const createError = require('http-errors');
 const debug = require('debug')('app:model/user');
 
 const Schema = mongoose.Schema;
@@ -15,14 +16,27 @@ const userSchema = Schema({
 
 userSchema.methods.generatePasswordHash = function (password) {
   debug('generatePasswordHash');
-  // TODO: implement
-  return Promise.resolve(this);
+
+  return new Promise((resolve, reject) => {
+    bcrypt.hash(password, 10, (err, hash) => {
+      if (err) return reject(err);
+      this.password = hash;
+      resolve(this);
+    });
+  });
 }
 
 userSchema.methods.comparePasswordHash = function (password) {
   debug('comparePasswordHash');
-  // TODO: implement
-  return Promise.resolve(this);
+
+  return new Promise((resolve, reject) => {
+    bcrypt.compare(password, this.password, (err, valid) => {
+      if (err) return reject(err);
+      if (!valid)
+        return reject(createError(401, 'username/password mismatch'));
+      resolve(this);
+    });
+  });
 }
 
 userSchema.methods.generateFindHash = function () {
