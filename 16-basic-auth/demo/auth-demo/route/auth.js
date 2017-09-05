@@ -15,7 +15,8 @@ router.get('/api/signin', basicAuth, function (req, res, next) {
 
   User.findOne({ username: req.auth.username })
     .then(user => user.comparePasswordHash(req.auth.password))
-    .then(() => res.send('welcome'))
+    .then(user => user.generateToken())
+    .then(token => res.send(token))
     .catch(next);
 });
 
@@ -29,6 +30,7 @@ router.post('/api/signup', jsonParser, function (req, res, next) {
 
   user.generatePasswordHash(password)
     .then(user => user.save())
-    .then(() => res.send('welcome'))
+    .then(user => user.generateToken())
+    .then(token => res.send(token))
     .catch(next);
 });

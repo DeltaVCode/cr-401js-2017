@@ -2,6 +2,7 @@
 
 const app = require('../server');
 const request = require('supertest')(app);
+const { expect } = require('chai');
 
 const debug = require('debug')('app:test/auth');
 
@@ -31,7 +32,9 @@ describe('Auth Routes', function () {
         .get('/api/signin')
         .auth(exampleUser.username, exampleUser.password)
         .expect(200)
-        .expect(res => debug(res.text));
+        .expect(res => {
+          expect(res.text.substring(0, 36)).to.equal('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9')
+        });
     });
   });
 
@@ -46,7 +49,9 @@ describe('Auth Routes', function () {
           .post('/api/signup')
           .send(exampleUser)
           .expect(200)
-          .expect(res => debug(res.text));
+          .expect(res => {
+            expect(res.text.substring(0, 36)).to.equal('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9')
+          });
       });
     });
 
