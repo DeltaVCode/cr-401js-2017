@@ -18,11 +18,7 @@ app.use(cors());
 
 // Authorize
 app.use(require('./route/auth'));
-
-// Require auth after here
-app.use(require('./lib/basic-auth-middleware'));
-
-// Private routes here
+app.use(require('./route/gallery-route'));
 
 app.use(require('./lib/error-middleware'));
 

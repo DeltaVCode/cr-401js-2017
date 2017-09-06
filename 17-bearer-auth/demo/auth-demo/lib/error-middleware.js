@@ -12,6 +12,9 @@ module.exports = function (err, req, res, next) {
   } else if (err.name === 'ValidationError') {
     debug('validation', err.message);
     err = createError(400, err.message);
+  } else if (err.name === 'CastError' && err.kind === 'ObjectId') {
+    debug(err.message);
+    err = createError(404, err.message);
   } else {
     debug('server error');
     console.error(err);
