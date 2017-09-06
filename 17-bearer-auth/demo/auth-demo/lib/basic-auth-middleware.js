@@ -11,10 +11,6 @@ module.exports = function (req, res, next) {
     return next(createError(401, 'authorization header is required'));
   }
 
-  if (!authHeader.startsWith('Basic ')) {
-    return next();
-  }
-
   let base64str = authHeader.split('Basic ')[1];
   if (!base64str) {
     return next(createError(401, 'username and password are required'));
