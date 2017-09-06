@@ -35,9 +35,12 @@ describe('Gallery Routes', function () {
     ]);
   });
   describe('POST /api/gallery', function () {
-      xit('should return a gallery', function () {
+      it('should return a gallery', function () {
         return request
           .post('/api/gallery')
+          .set({
+            Authorization: `Bearer ${this.testToken}`,
+          })
           .send(exampleGallery)
           .expect(200)
         .expect(res => {

@@ -12,8 +12,10 @@ const router = module.exports = new Router();
 router.post('/api/gallery', jsonParser, (req, res, next) => {
   debug('POST /api/gallery');
 
-  new Gallery(req.body)
-    .save()
+  new Gallery({
+    ...req.body,
+    userID: req.user._id
+  }).save()
     .then(gallery => res.json(gallery))
     .catch(next);
 });
@@ -26,8 +28,10 @@ router.get('/api/gallery/:id', (req, res, next) => {
       if (!gallery)
         return res.sendStatus(404);
 
-      if (gallery.userID.toString() !== req.user._id.toString())
+      if (gallery.userID.toString() !== req.user._id.toString()) {
+        debug(`permission denied for ${req.user._id} (owner: ${gallery.userID})`);
         return next(createError(401, 'permission denied'));
+      }
 
       res.json(gallery);
     })
