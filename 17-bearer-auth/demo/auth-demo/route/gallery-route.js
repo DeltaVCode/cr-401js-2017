@@ -9,8 +9,6 @@ const Gallery = require('../model/gallery');
 const bearerAuth = require('../lib/bearer-auth-middleware');
 const router = module.exports = new Router();
 
-router.use('/api/gallery*', bearerAuth);
-
 router.post('/api/gallery', jsonParser, (req, res, next) => {
   debug('POST /api/gallery');
 

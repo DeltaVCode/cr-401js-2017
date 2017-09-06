@@ -18,6 +18,8 @@ app.use(cors());
 
 // Authorize
 app.use(require('./route/auth'));
+
+app.use('/api/*', require('./lib/bearer-auth-middleware'));
 app.use(require('./route/gallery-route'));
 
 app.use(require('./lib/error-middleware'));
