@@ -3,6 +3,7 @@
 const app = require('../server');
 const request = require('supertest')(app);
 const { expect } = require('chai');
+const awsMocks = require('./lib/aws-mocks.js');
 
 const debug = require('debug')('app:test/pic-route');
 
@@ -86,6 +87,13 @@ describe('Pic Routes', function () {
           expect(res.body.desc).to.equal(example.pic.desc);
           expect(res.body.userID).to.equal(this.testUser._id.toString());
           expect(res.body.galleryID).to.equal(this.testGallery._id.toString());
+
+          if (awsMocks.Location) {
+            expect(res.body.imageURI).to.equal(awsMocks.uploadMock.Location);
+          } else {
+            // TODO: validate imageURI
+            expect(res.body.imageURI).to.not.be.undefined;
+          }
         });
     });
   });
