@@ -12,7 +12,7 @@ const exampleGallery = {
 const examplePic = {
   name: 'example pic',
   desc: 'amazing example pic',
-  image: `${__dirname}/data/tester.png`,
+  image: `${__dirname}/../data/tester.png`,
 };
 
 module.exports = {
