@@ -42,7 +42,7 @@ describe('Pic Routes', function () {
     ]);
   });
 
-  describe.only('POST /api/gallery/:id/pic', function () {
+  describe('POST /api/gallery/:id/pic', function () {
     it('should return 401 without Authorization', function (){
       return request
         .post(`/api/gallery/${this.testGallery._id}/pic`)

@@ -23,17 +23,25 @@ router.post('/api/gallery', jsonParser, (req, res, next) => {
 router.get('/api/gallery/:id', (req, res, next) => {
   debug(`GET /api/gallery/${req.params.id}`);
 
-  Gallery.findById(req.params.id)
-    .then(gallery => {
-      if (!gallery)
-        return res.sendStatus(404);
+  Gallery.findOne({ _id: req.params.id, userID: req.user._id })
+    .then(gallery => gallery ? res.json(gallery) : res.sendStatus(404))
+    .catch(next);
+});
 
-      if (gallery.userID.toString() !== req.user._id.toString()) {
-        debug(`permission denied for ${req.user._id} (owner: ${gallery.userID})`);
-        return next(createError(401, 'permission denied'));
-      }
+router.delete('/api/gallery/:id', (req, res, next) => {
+  debug(`DELETE /api/gallery/${req.params.id}`);
 
-      res.json(gallery);
-    })
+  Gallery.findOneAndRemove({ _id: req.params.id, userID: req.user._id })
+    .then(gallery => gallery ? res.sendStatus(204) : res.sendStatus(404))
+    .catch(next);
+});
+
+router.put('/api/gallery/:id', jsonParser, (req, res, next) => {
+  debug(`PUT /api/gallery/${req.params.id}`);
+
+  const { _id, _v, update } = req.body;
+
+  Gallery.findOneAndUpdate({ _id: req.params.id, userID: req.user._id }, req.body, { new: true })
+    .then(gallery => gallery ? res.json(gallery) : res.sendStatus(404))
     .catch(next);
 });
