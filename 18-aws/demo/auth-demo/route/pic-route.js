@@ -12,21 +12,14 @@ const router = module.exports = new Router();
 const dataDir = `${__dirname}/../temp`;
 const upload = require('multer')({ dest: dataDir });
 
+const Promise = require('bluebird');
 const fs = require('fs');
 const path = require('path');
 const del = require('del');
 const AWS = require('aws-sdk');
 
 AWS.config.setPromisesDependency(Promise);
-const s3 = new AWS.S3();
-const s3uploadAsync = (options) => {
-  return new Promise((resolve, reject) => {
-    s3.upload(options, (err, data) => {
-      if (err) return reject(err);
-      resolve(data);
-    });
-  });
-};
+const s3 = Promise.promisifyAll(new AWS.S3());
 
 router.post('/api/gallery/:id/pic', upload.single('image'), (req, res, next) => {
   debug(`POST /api/gallery/${req.params.id}`);
@@ -53,7 +46,7 @@ router.post('/api/gallery/:id/pic', upload.single('image'), (req, res, next) => 
       if (!gallery)
         return next(createError(404, 'gallery not found'));
 
-      return s3uploadAsync(s3options);
+      return s3.uploadAsync(s3options);
     })
     .then(s3data => {
       debug('s3data', s3data);
