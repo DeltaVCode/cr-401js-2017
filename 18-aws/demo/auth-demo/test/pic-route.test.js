@@ -47,12 +47,6 @@ describe('Pic Routes', function () {
         .post(`/api/gallery/${this.testGallery._id}/pic`)
         .expect(401);
     })
-    it('should return 400 without file', function (){
-      return request
-        .post(`/api/gallery/${this.testGallery._id}/pic`)
-        .set({ Authorization: `Bearer ${this.testToken}`, })
-        .expect(400);
-    });
     it('should return 404 with file but bad id', function (){
       return request
         .post(`/api/gallery/deadbeefdeadbeefdeadbeef/pic`)
@@ -64,13 +58,27 @@ describe('Pic Routes', function () {
         .attach('image', example.pic.image)
         .expect(404);
     });
+    it('should return 400 without file', function (){
+      return request
+        .post(`/api/gallery/${this.testGallery._id}/pic`)
+        .set({ Authorization: `Bearer ${this.testToken}`, })
+        .expect(400);
+    });
+    it('should return 400 with file but missing fields', function (){
+      return request
+        .post(`/api/gallery/${this.testGallery._id}/pic`)
+        .set({ Authorization: `Bearer ${this.testToken}`, })
+        .attach('image', example.pic.image)
+        .expect(400);
+    });
     it('should return a pic', function () {
       return request
         .post(`/api/gallery/${this.testGallery._id}/pic`)
         .set({ Authorization: `Bearer ${this.testToken}`, })
-        //.send({name: examplePic.name, desc: examplePic.desc})
-        .field('name', example.pic.name)
-        .field('desc', example.pic.desc)
+        .field({
+          name: example.pic.name,
+          desc: example.pic.desc,
+        })
         .attach('image', example.pic.image)
         .expect(200)
         .expect(res => {

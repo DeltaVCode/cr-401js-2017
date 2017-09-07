@@ -44,20 +44,19 @@ router.post('/api/gallery/:id/pic', upload.single('image'), (req, res, next) => 
   let s3options = {
     ACL: 'public-read',
     Bucket: process.env.AWS_BUCKET,
-    Key: `${req.file.filename}${req.file.ext}`,
+    Key: `${req.file.filename}-${req.file.originalname}`,
     Body: fs.createReadStream(req.file.path),
   };
 
   Gallery.findById(req.params.id)
     .then(gallery => {
-      debug('gallery', gallery);
       if (!gallery)
         return next(createError(404, 'gallery not found'));
 
       return s3uploadAsync(s3options);
     })
     .then(s3data => {
-      debug('body', req.body);
+      debug('s3data', s3data);
       del([req.file.path]);
       return new Pic({
         ...req.body,
