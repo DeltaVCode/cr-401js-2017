@@ -43,25 +43,22 @@ userSchema.methods.comparePasswordHash = function (password) {
   });
 }
 
-userSchema.methods.generateFindHash = function () {
+userSchema.methods.generateFindHash = async function () {
   debug('generateFindHash');
 
-  return new Promise((resolve, reject) => {
-    let tries = 0;
-
-    _generateFindHash.call(this);
-
-    function _generateFindHash() {
+  let tries = 0;
+  while (true) {
+    try {
       this.findHash = crypto.randomBytes(32).toString('hex');
-      this.save()
-        .then(() => resolve(this.findHash))
-        .catch(err => {
-          if (tries > 3) return reject(err);
-          debug('generateFindHash try ${++tries}');
-          _generateFindHash.call(this);
-        });
+      await this.save();
+      return this.findHash;
     }
-  });
+    catch (err) {
+      if (tries > 3)
+        throw err;
+      debug('generateFindHash try ${++tries}');
+    }
+  }
 };
 
 userSchema.methods.generateToken = function () {
