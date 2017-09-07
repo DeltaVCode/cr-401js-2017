@@ -17,29 +17,25 @@ const example = require('./lib/examples');
 debug(example);
 
 describe('Pic Routes', function () {
-  beforeEach(function setTestUser() {
-    return User.createUser(example.user)
-      .then(user => this.testUser = user)
-      .then(user => user.generateToken())
-      .then(token => this.testToken = token);
+  beforeEach(async function setTestUser() {
+    this.testUser = await User.createUser(example.user);
+    this.testToken = await this.testUser.generateToken();
   });
-  beforeEach(function setTestGallery() {
-    return new Gallery({
+  beforeEach(async function setTestGallery() {
+    this.testGallery = new Gallery({
       ...example.gallery,
       userID: this.testUser._id.toString(),
-    }).save()
-      .then(gallery => this.testGallery = gallery)
-      .then(() => debug('testGallery', this.testGallery));
+    });
+    await this.testGallery.save();
   });
-  afterEach(function deleteEverything() {
+  afterEach(async function deleteEverything() {
     delete this.testUser;
     delete this.testToken;
+    delete this.testGallery;
 
-    return Promise.all([
-      User.remove({}),
-      Gallery.remove({}),
-      Pic.remove({}),
-    ]);
+    await User.remove({});
+    await Gallery.remove({});
+    await Pic.remove({});
   });
 
   describe('POST /api/gallery/:id/pic', function () {

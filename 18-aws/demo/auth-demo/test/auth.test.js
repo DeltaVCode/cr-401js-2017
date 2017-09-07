@@ -16,13 +16,15 @@ const exampleUser = {
 };
 
 describe('Auth Routes', function () {
+  afterEach(async function () {
+    delete this.testUser;
+
+    await User.remove({});
+  });
+
   describe('GET /api/signin', function () {
-    before(function () {
-      return User.createUser(exampleUser)
-        .then(user => this.testUser = user);
-    });
-    after(function () {
-      return User.remove({});
+    beforeEach(async function () {
+      this.testUser = await User.createUser(exampleUser);
     });
 
     it('should sign in', function () {
@@ -39,10 +41,6 @@ describe('Auth Routes', function () {
 
   describe('POST /api/signup', function () {
     describe('with a valid body', function () {
-      after(function () {
-        return User.remove({});
-      });
-
       it('should succeed', function () {
         return request
           .post('/api/signup')
@@ -55,10 +53,6 @@ describe('Auth Routes', function () {
     });
 
     describe('without body', function () {
-      after(function () {
-        return User.remove({});
-      });
-
       it('should fail', function () {
         return request
           .post('/api/signup')
@@ -67,10 +61,6 @@ describe('Auth Routes', function () {
     });
 
     describe('with password only', function () {
-      after(function () {
-        return User.remove({});
-      });
-
       it('should fail', function () {
         return request
           .post('/api/signup')
@@ -80,10 +70,6 @@ describe('Auth Routes', function () {
     });
 
     describe('with valid body other than password', function () {
-      after(function () {
-        return User.remove({});
-      });
-
       it('should fail', function () {
         return request
           .post('/api/signup')
