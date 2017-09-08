@@ -7,7 +7,7 @@
 
 ## Learning Objectives
 * students will be able to deploy their application on Heroku
-* students will be able to create staging and production pipelines
+* students will be able to create deployment pipelines
 * students will be able to configure TravisCI to run their tests on all pushes to GitHub
 * students will be able to configure Coveralls to check their code coverage rate
 * students will be able to identify common issues during the deployment process
@@ -23,17 +23,9 @@
     - 'stable'
   services:
     - mongodb
-  addons:
-    apt:
-      sources:
-        - ubuntu-toolchain-r-test
-      packages:
-        - gcc-4.8
-        - g++-4.8
   env:
-    - CXX=g++-4.8
-  sudo: required
-  before_script: npm i
+    - MONGODB_URI=mongodb://localhost/test
+  before_script: npm install
   script:
     - npm test
     - npm run lint
@@ -45,7 +37,6 @@
 - add your environment variables to TravisCI by clicking on the **Settings** option in the **More options** dropdown
 - log into the Heroku dashboard
 - create a new app
-- create a staging app *(ex: cfgram-staging)*
 - click on the **Resources** tab
 - in the **Add-ons** section, type *mongo* and choose the mLab option and associated free price plan
   - *note: you will need to provide a credit card with Heroku to do this - even with the free option*
@@ -53,8 +44,13 @@
 - click on the **Reveal Config Vars** button and add your environment variables
   - *note: you do not need to add the MONGODB_URI variable as this was added by Heroku when you provisioned the DB - there's also no need to add a PORT, Heroku will handle this for you*
 - click on the **Deploy** tab
-- create a new pipeline called **staging**
+- create a new pipeline
 - click the button to connect your application to GitHub
-- in the **Automatic deploys** field, click the checkbox to **Wait for CI to pass before deploy**, choose **staging** as your deployment branch *(you'll need to already have a `staging` branch pushed to GitHub)* and click the button to **Enable Automatic Deploys**
-- **repeat** the following steps to create a production pipeline
-  - *note: be sure to name the application "myapp-production", add it to a production pipeline, and enable automatic deploys to deploy to your `master` branch*
+- in the **Automatic deploys** field, click the checkbox to **Wait for CI to pass before deploy**, choose **master** as your deployment branch
+- Update repository link to your Production environment
+- Submit repository link in Canvas
+
+##### Bonus
+- **(3pts)** Enable [Review Apps](https://devcenter.heroku.com/articles/github-integration-review-apps) for your Heroku Pipeline
+- **(2pts)** Add a Staging app to your Heroku Pipeline, connected to a **staging** branch
+- **(3pts)** Enable [Coveralls](https://coveralls.io/) for your repository
