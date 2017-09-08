@@ -53,4 +53,4 @@
 ##### Bonus
 - **(3pts)** Enable [Review Apps](https://devcenter.heroku.com/articles/github-integration-review-apps) for your Heroku Pipeline
 - **(2pts)** Add a Staging app to your Heroku Pipeline, connected to a **staging** branch
-- **(3pts)** Enable [Coveralls](https://coveralls.io/) for your repository
+- **(5pts)** Enable [Coveralls](https://coveralls.io/) for your repository
