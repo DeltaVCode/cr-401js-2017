@@ -23,6 +23,12 @@ class Dashboard extends React.Component {
   }
 
   expenseUpdate(expense) {
+    let { app } = this.props;
+    app.setState(state => ({
+      expenses: state.expenses.map(item => {
+        return item.id === expense.id ? expense : item;
+      }),
+    }));
   }
   expenseRemove(expense) {
     let { app } = this.props;
