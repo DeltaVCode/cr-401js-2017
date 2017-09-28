@@ -24,6 +24,7 @@ class App extends React.Component {
     super(props);
 
     this.state = {
+      budget: 500,
       expenses: [],
     };
   }

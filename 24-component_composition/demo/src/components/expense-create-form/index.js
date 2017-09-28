@@ -19,8 +19,18 @@ export default class ExpenseCreateForm extends React.Component {
   }
 
   handleChange(e) {
+    let { name, value, type } = e.currentTarget;
+
+    if (type === 'number') {
+      try {
+        value = parseInt(value);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
     this.setState({
-      [e.target.name]: e.target.value
+      [name]: value
     });
   }
 

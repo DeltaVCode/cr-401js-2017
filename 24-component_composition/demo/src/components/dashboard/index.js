@@ -41,9 +41,24 @@ class Dashboard extends React.Component {
 
   render() {
     const { app } = this.props;
+
+    let totalSpent = app.state.expenses.reduce(
+      (p, exp) => p + exp.price, 0);
+    let remainingBudget = app.state.budget - totalSpent;
+    console.log({totalSpent, remainingBudget})
+
     return (
       <div className='dashboard-container'>
-        <h1>Dashboard</h1>
+        <h2>Dashboard</h2>
+        <dl>
+          <dt>Total Budget:</dt>
+          <dd>${app.state.budget}</dd>
+          <dt>Total Spent:</dt>
+          <dd>${totalSpent}</dd>
+          <dt>Remaining Budget:</dt>
+          <dd>${remainingBudget}</dd>
+        </dl>
+
         <ExpenseCreateForm id='form1'
           handleExpenseCreate={this.expenseCreate}
           />
