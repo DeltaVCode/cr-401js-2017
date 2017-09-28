@@ -4,11 +4,15 @@ import uuid from 'uuid/v4';
 
 import ExpenseCreateForm from '../expense-create-form';
 import ExpenseList from '../expense-list';
+import Modal from '../modal';
 
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     console.log(props);
+    this.state = {
+      showErrors: true,
+    };
 
     this.expenseCreate = this.expenseCreate.bind(this);
     this.expenseRemove = this.expenseRemove.bind(this);
@@ -18,6 +22,7 @@ class Dashboard extends React.Component {
   expenseCreate(expense) {
     expense.id = uuid();
     this.props.app.setState(state => ({
+      showErrors: true,
       expenses: [...state.expenses, expense],
     }));
   }
@@ -25,6 +30,7 @@ class Dashboard extends React.Component {
   expenseUpdate(expense) {
     let { app } = this.props;
     app.setState(state => ({
+      showErrors: true,
       expenses: state.expenses.map(item => {
         return item.id === expense.id ? expense : item;
       }),
@@ -33,6 +39,7 @@ class Dashboard extends React.Component {
   expenseRemove(expense) {
     let { app } = this.props;
     app.setState(state => ({
+      showErrors: true,
       expenses: state.expenses.filter(item => {
         return item.id !== expense.id;
       }),
@@ -67,6 +74,18 @@ class Dashboard extends React.Component {
           expenseUpdate={this.expenseUpdate}
           expenseRemove={this.expenseRemove}
           expenses={app.state.expenses} />
+
+        {
+          remainingBudget < 0 && this.state.showErrors &&
+            <Modal close={() => {
+              this.setState({
+                showErrors: false,
+              });
+            }}>
+              <h2>Sorry, you have used all of your available funds!</h2>
+              <p>Current balance: {remainingBudget}</p>
+            </Modal>
+        }
       </div>
     )
   }
