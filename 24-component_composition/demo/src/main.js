@@ -43,7 +43,9 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <div>
-          <Navbar />
+          <Navbar>
+            <h1>Budget Tracker!</h1>
+          </Navbar>
           <main>
               <section>
                 <Switch>

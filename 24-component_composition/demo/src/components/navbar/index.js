@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default () => (
+export default (props) => (
   <header>
-    <h1>Budget Tracker App</h1>
+    {props.children}
     <nav>
       <ul>
         <li><Link to='/'>Home</Link></li>
