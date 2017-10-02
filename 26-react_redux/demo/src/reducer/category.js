@@ -1,6 +1,7 @@
 const initialState = [];
 
 export default (state = initialState, action = {}) => {
+  console.log({ state, action });
   const { type, payload } = action;
 
   switch(type) {
