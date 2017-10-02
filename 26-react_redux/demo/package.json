@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
     "build": "webpack",
     "watch": "webpack-dev-server --inline --hot"
   },
@@ -36,5 +38,9 @@
     "uuid": "^3.1.0",
     "webpack": "^3.5.5",
     "webpack-dev-server": "^2.7.1"
+  },
+  "devDependencies": {
+    "deep-freeze": "0.0.1",
+    "jest": "^21.2.1"
   }
 }
