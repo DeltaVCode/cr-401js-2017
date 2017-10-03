@@ -3,10 +3,11 @@ import uuid from 'uuid/v1';
 export const categoryCreate = (category) => {
   return {
     type: 'CATEGORY_CREATE',
-    payload: Object.assign({}, category, {
+    payload: {
+      ...category,
       id: uuid(),
       timestamp: new Date(),
-    }),
+    },
   };
 }
 
