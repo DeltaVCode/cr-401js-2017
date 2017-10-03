@@ -1,6 +1,6 @@
 import deepFreeze from 'deep-freeze';
 
-import category from './category';
+import category from '../category';
 
 test('initial state should be empty array', () => {
   let res = category();

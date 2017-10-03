@@ -1,9 +1,10 @@
 import deepFreeze from 'deep-freeze';
 
-import reducer from './';
+import reducer from '../';
 
 const defaultState = {
   categories: [],
+  cards: {},
 };
 deepFreeze(defaultState);
 
