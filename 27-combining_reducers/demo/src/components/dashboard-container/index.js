@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../action/category-actions';
 
 import CategoryForm from '../category-form';
+import CategoryItem from '../category-item';
 
 class DashboardContainer extends React.Component {
   componentDidMount() {
@@ -17,9 +18,7 @@ class DashboardContainer extends React.Component {
           buttonText="Add Category"
           saveCategory={this.props.categoryCreate} />
         {this.props.categories.map(cat =>
-          <div key={cat.id}>
-            <h3>{cat.title}</h3>
-          </div>
+          <CategoryItem key={cat.id} category={cat} />
         )}
       </main>
     )
