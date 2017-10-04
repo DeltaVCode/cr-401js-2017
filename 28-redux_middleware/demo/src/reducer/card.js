@@ -6,7 +6,7 @@ export default (state = {}, action = {}) => {
         ...state,
         [payload.id]: [],
       };
-    case 'CATEGORY_REMOVE':{
+    case 'CATEGORY_REMOVE':
       let nextState = {...state};
       delete nextState[payload.id];
       return nextState;
