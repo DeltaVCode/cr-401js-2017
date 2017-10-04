@@ -2,9 +2,12 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import CategoryForm from '../category-form';
-import * as actions from '../../action/category-actions';
+import CardForm from '../card-form';
+import CardItem from '../card-item';
+import * as categoryActions from '../../action/category-actions';
+import { cardCreate } from '../../action/card-actions';
 
-const CategoryItem = ({ category, categoryUpdate, categoryDelete }) => (
+const CategoryItem = ({ category, categoryUpdate, categoryDelete, cards, cardCreate }) => (
   <section className='category-item'>
     <div>
       <div className='content'>
@@ -17,14 +20,31 @@ const CategoryItem = ({ category, categoryUpdate, categoryDelete }) => (
           category={category}
           saveCategory={categoryUpdate} />
       </div>
+
+      <div className='card-container'>
+        <CardForm
+          buttonText='Create Card'
+          onSave={cardCreate}
+          categoryID={category.id}
+          />
+        <ul className='card-items'>
+          {cards.map(card =>
+            <CardItem key={card.id} card={card} />)}
+        </ul>
+      </div>
     </div>
   </section>
 )
 
-let mapStateToProps = () => ({});
+let mapStateToProps = (state, props) => ({
+  cards: state.cards[props.category.id],
+  // If cards were an array instead...
+  // cards: state.cards.filter(card => card.categoryId === props.category.id),
+});
 let mapDispatchToProps = dispatch => ({
-  categoryUpdate: category => dispatch(actions.categoryUpdate(category)),
-  categoryDelete: category => dispatch(actions.categoryRemove(category)),
+  categoryUpdate: category => dispatch(categoryActions.categoryUpdate(category)),
+  categoryDelete: category => dispatch(categoryActions.categoryRemove(category)),
+  cardCreate: card => dispatch(cardCreate(card)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryItem);

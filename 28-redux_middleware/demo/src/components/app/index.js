@@ -22,6 +22,14 @@ export default class App extends React.Component {
           payload: { id: 1, title: 'Test' }})
       }, 2000);
     }));
+    store.dispatch(new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve({
+          type: 'CARD_CREATE',
+          payload: { id: 17, categoryID: 1, title: 'testing' },
+        });
+      }, 2500);
+    }));
   }
 
   render() {
