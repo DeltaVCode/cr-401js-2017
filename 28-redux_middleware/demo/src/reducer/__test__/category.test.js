@@ -22,10 +22,10 @@ test('unknown action returns current state', () => {
 });
 
 test('create category', () => {
-  const state = [{ title: 'Utilities' }];
+  const state = [{ id: 1, title: 'Utilities' }];
   const action = {
     type: 'CATEGORY_CREATE',
-    payload: { title: 'Groceries' },
+    payload: { id: 2, title: 'Groceries' },
   };
 
   deepFreeze([state, action]);
@@ -33,9 +33,37 @@ test('create category', () => {
   let res = category(state, action);
 
   expect(res).toEqual([
-    { title: 'Utilities' },
-    { title: 'Groceries' },
+    { id: 1, title: 'Utilities' },
+    { id: 2, title: 'Groceries' },
   ])
+});
+
+test('create category without id should throw', () => {
+  const state = [{ id: 1, title: 'Utilities' }];
+  const action = {
+    type: 'CATEGORY_CREATE',
+    payload: { title: 'Groceries' },
+  };
+
+  deepFreeze([state, action]);
+
+  expect(() => {
+    category(state, action);
+  }).toThrow(/^Validation.+ id$/);
+});
+
+test('create category without title should throw', () => {
+  const state = [{ id: 1, title: 'Utilities' }];
+  const action = {
+    type: 'CATEGORY_CREATE',
+    payload: { id: 2 },
+  };
+
+  deepFreeze([state, action]);
+
+  expect(() => {
+    category(state, action);
+  }).toThrow(/^Validation.+ title$/);
 });
 
 test('remove category', () => {

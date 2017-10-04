@@ -1,3 +1,12 @@
+let validateCard = (card) => {
+  if (!card.id) {
+    throw new Error('Validation Error: card must include id');
+  }
+  if (!card.title) {
+    throw new Error('Validation Error: card must include title');
+  }
+}
+
 export default (state = {}, action = {}) => {
   const { type, payload } = action;
   switch (type) {
@@ -11,6 +20,7 @@ export default (state = {}, action = {}) => {
       delete nextState[payload.id];
       return nextState;
     case 'CARD_CREATE':
+      validateCard(payload);
       let { categoryID } = payload;
       let categoryCards = state[categoryID];
       return {

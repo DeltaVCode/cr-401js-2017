@@ -5,24 +5,6 @@ import reducer from '../card';
 const defaultState = {};
 deepFreeze(defaultState);
 
-test('initial state should be default', () => {
-  let res = reducer();
-  expect(res).toEqual(defaultState);
-});
-
-test('unknown action returns current state', () => {
-  const state = defaultState;
-  const action = {
-    type: 'UNKNOWN',
-  };
-
-  deepFreeze(action);
-
-  let res = reducer(state, action);
-
-  expect(res).toEqual(state);
-});
-
 test('create card creates card if category is empty', () => {
   const categoryID = 3;
   const state = {
@@ -75,6 +57,48 @@ test('create card creates card if category is not empty', () => {
     ],
   })
 });
+
+test('create card throws validation error if id is missing', () => {
+  const categoryID = 3;
+  const state = {
+    [categoryID]: [],
+  };
+  const action = {
+    type: 'CARD_CREATE',
+    payload: {
+      title: 'New Card',
+      categoryID,
+    },
+  }
+
+  deepFreeze(state);
+  deepFreeze(action);
+
+  expect(() => {
+    reducer(state, action);
+  }).toThrow(/^Validation.+ id$/);
+})
+
+test('create card throws validation error if title is missing', () => {
+  const categoryID = 3;
+  const state = {
+    [categoryID]: [],
+  };
+  const action = {
+    type: 'CARD_CREATE',
+    payload: {
+      id: 12,
+      categoryID,
+    },
+  }
+
+  deepFreeze(state);
+  deepFreeze(action);
+
+  expect(() => {
+    reducer(state, action);
+  }).toThrow(/^Validation.+ title$/);
+})
 
 test('create category initializes cards with category', () => {
   const categoryID = 5;

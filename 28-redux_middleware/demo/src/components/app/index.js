@@ -14,9 +14,14 @@ export default class App extends React.Component {
       console.log('__STATE__', store.getState());
     });
 
-    setTimeout(() => {
-      store.dispatch({ type: 'CATEGORY_CREATE', payload: { id: 1, title: 'Test' }})
-    }, 2000);
+    store.dispatch(new Promise((resolve, reject) => {
+      setTimeout(() => {
+        console.log('Resolving promise...') ;
+        resolve({
+          type: 'CATEGORY_CREATE',
+          payload: { id: 1, title: 'Test' }})
+      }, 2000);
+    }));
   }
 
   render() {
