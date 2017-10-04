@@ -5,7 +5,7 @@ import * as actions from '../../action/category-actions';
 import CategoryForm from '../category-form';
 import CategoryItem from '../category-item';
 
-class DashboardContainer extends React.Component {
+export class DashboardContainer extends React.Component {
   componentDidMount() {
     this.props.categoryCreate({ title: 'From mapDispatchToProps' });
   }
