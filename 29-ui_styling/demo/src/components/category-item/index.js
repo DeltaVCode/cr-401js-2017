@@ -1,3 +1,5 @@
+import './_category-item.scss';
+
 import * as React from 'react';
 import { connect } from 'react-redux';
 
@@ -12,7 +14,7 @@ const CategoryItem = ({ category, categoryUpdate, categoryDelete, cards, cardCre
     <div>
       <div className='content'>
         <h3>{category.title}</h3>
-        <button onClick={() => categoryDelete(category)}>Delete</button>
+        <button onClick={() => categoryDelete(category)} className="delete">Delete</button>
       </div>
       <div className='editing'>
         <CategoryForm

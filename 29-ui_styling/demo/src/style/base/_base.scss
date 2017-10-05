@@ -1,0 +1,52 @@
+body {
+  font-family: $font-primary;
+  background: $brand-primary;
+}
+
+button {
+  color: $white;
+  font-weight: bold;
+  font-size: $font-med;
+  border-radius: $border-radius;
+  cursor: pointer;
+  transition: $transition-primary;
+  border: none;
+  background-color: $black;
+  text-shadow: none;
+  padding: $gutter-sm;
+
+  &:hover {
+    background: $grey;
+  }
+
+  &.delete {
+    color: red;
+    background: $white;
+  }
+}
+
+input[type="text"] {
+  display: inline-block;
+  border-radius: $border-radius;
+  padding: $gutter-sm;
+  transition: $transition-primary;
+  font-size: $font-med;
+  border-color: $black;
+  width: 60%;
+  margin-right: $gutter-sm;
+
+  &:focus {
+    border-color: $brand-secondary;
+  }
+}
+
+h2, h3 {
+  font-size: $font-lg;
+  font-weight: bold;
+  margin-bottom: $gutter-lg;
+}
+
+h3 {
+  display: inline-block;
+  margin-right: 10px;
+}

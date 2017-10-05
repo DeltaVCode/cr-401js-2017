@@ -13,7 +13,10 @@ export class DashboardContainer extends React.Component {
   render() {
     return (
       <main className='dashboard-container'>
-        <h2>Dashboard</h2>
+        <header>
+          <h1>DV Kanban Board</h1>
+        </header>
+        <h2>Create A Category</h2>
         <CategoryForm
           buttonText="Add Category"
           saveCategory={this.props.categoryCreate} />

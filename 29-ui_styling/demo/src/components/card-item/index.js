@@ -6,11 +6,11 @@ import CardForm from '../card-form';
 
 const CardItem = ({ card, cardUpdate, cardDelete }) => (
   <li className='card-item'>
-    <p>{card.title}</p>
-    <button onClick={() => cardDelete(card)}>Delete</button>
+    <h3>{card.title}</h3>
+    <button onClick={() => cardDelete(card)} className="delete">Delete</button>
     <CardForm
       card={card}
-      buttonText='Update Card'
+      buttonText='Update Card'delete
       onSave={cardUpdate} />
   </li>
 );

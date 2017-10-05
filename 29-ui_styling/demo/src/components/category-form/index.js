@@ -1,3 +1,4 @@
+import './_category-form.scss';
 import React from 'react';
 
 export default class CategoryForm extends React.Component {
@@ -33,7 +34,7 @@ export default class CategoryForm extends React.Component {
         <input
           name='title'
           type='text'
-          placeholder='Title'
+          placeholder='Category Name'
           value={this.state.title}
           onChange={this.handleChange}
         />

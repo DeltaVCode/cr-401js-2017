@@ -1,0 +1,16 @@
+header {
+  position: fixed;
+  top: 0;
+  padding: $gutter-sm;
+  font-size: $font-lg;
+  width: 100%;
+  background-color: $grey;
+  color: $white;
+  z-index: 5;
+  margin: -$gutter-lg;
+  margin-top: 0;
+
+  & h1 {
+    font-weight: bold;
+  }
+}
