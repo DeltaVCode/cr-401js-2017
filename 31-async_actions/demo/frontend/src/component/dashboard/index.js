@@ -6,7 +6,13 @@ import ListForm from '../list-form';
 import * as listActions from '../../action/list-actions.js';
 
 class Dashboard extends React.Component {
+  componentWillMount() {
+    console.log('componentWillMount');
+    this.props.listsFetch();
+  }
+
   render() {
+    console.log('render');
     const { lists, listCreate, listDelete } = this.props;
     return (
       <div className='dashboard'>
@@ -31,6 +37,7 @@ const mapStateToProps = (state) => ({
   lists: state.lists,
 });
 const mapDispatchToProps = (dispatch) => ({
+  listsFetch: () => dispatch(listActions.listFetchRequest()),
   listCreate: (list) => dispatch(listActions.listCreateRequest(list)),
   listDelete: (list) => dispatch(listActions.listDeleteRequest(list)),
 });

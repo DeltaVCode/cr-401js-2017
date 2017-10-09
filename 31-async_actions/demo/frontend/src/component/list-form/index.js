@@ -1,3 +1,4 @@
+import './_list-form.scss';
 import React from 'react';
 import * as util from '../../lib/util.js';
 
@@ -18,7 +19,21 @@ class ListForm extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     let {onComplete} = this.props;
-    onComplete(this.state);
+    let result = onComplete(this.state);
+    if (result instanceof Promise) {
+      result.then(() => {
+        this.setState({
+          error: null,
+          name: '',
+        })
+      })
+      .catch(error => {
+        console.warn(error);
+        this.setState({
+          error
+        });
+      })
+    }
   }
 
   handleChange(e) {
@@ -34,6 +49,10 @@ class ListForm extends React.Component {
           'error': this.state.error
         })}
         >
+        {this.state.error &&
+          <p>
+            <strong>{this.state.error.message}</strong>
+          </p>}
 
         <input
           name='name'
