@@ -6,7 +6,27 @@ const { expect } = require('chai');
 const List = require('../model/list');
 const Note = require('../model/note');
 
-describe.only('list routes', function () {
+describe('list routes', function () {
+  describe('GET /api/lists', function () {
+    before(function () {
+      return new List({ name: 'get me', created: new Date() })
+        .save()
+        .then(list => this.testList = list);
+    });
+    after(function () {
+      return List.remove({});
+    });
+
+    it('should return all lists', function() {
+      return request.get('/api/lists')
+        .expect(200)
+        .expect(res => {
+          console.log(res.body)
+          expect(res.body.length).to.be.above(0);
+          expect(res.body[res.body.length - 1]._id).to.equal(this.testList._id.toString());
+        })
+    })
+  })
   describe('POST /api/list', function () {
     describe('with a valid body', function () {
       after(function () {

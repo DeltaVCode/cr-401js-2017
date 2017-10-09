@@ -7,6 +7,13 @@ const List = require('../model/list');
 
 const router = module.exports = new Router();
 
+router.get('/api/lists', function (req, res, next) {
+  debug('GET /api/lists');
+  List.find({})
+    .then(lists => res.json(lists))
+    .catch(next);
+})
+
 router.post('/api/list', jsonParser, function (req, res, next) {
   debug('POST /api/list');
   req.body.created = new Date();
