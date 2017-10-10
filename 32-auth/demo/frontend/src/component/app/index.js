@@ -1,6 +1,6 @@
 import React from 'react';
 import {Provider} from 'react-redux';
-import {BrowserRouter, Route, Link} from 'react-router-dom';
+import {BrowserRouter, Switch, Route, Link} from 'react-router-dom';
 import appStoreCreate from '../../lib/app-create-store.js';
 import LandingContainer from '../landing-container';
 
@@ -22,7 +22,11 @@ class App extends React.Component {
                   </ul>
                 </nav>
               </header>
-              <Route path='/welcome/:auth' component={LandingContainer} />
+              <Switch>
+                <Route path='/welcome/:auth' component={LandingContainer} />
+                <Route exact path='/' component={() => <div>Welcome to my app!</div>} />
+                <Route component={() => <div>Not Found!</div>} />
+              </Switch>
             </section>
           </BrowserRouter>
         </Provider>
