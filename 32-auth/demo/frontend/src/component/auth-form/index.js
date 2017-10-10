@@ -8,11 +8,6 @@ const isRequired = (value, name) => {
 const isEmail = (value) => {
   return value && value.indexOf('@') > 1 ? null : `${value} is not an email`;
 }
-const validation = {
-  username: isRequired,
-  email: (value, name) => isRequired(value, name) || isEmail(value),
-  password: isRequired,
-}
 
 export default class AuthForm extends React.Component {
   constructor(props) {
@@ -29,27 +24,28 @@ export default class AuthForm extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+
+    this.updateValidation();
   }
 
-  handleChange(e) {
-    const { name, value } = e.currentTarget;
-    this.setState(state => ({
-      [name]: value,
-      errors: {
-        ...state.errors,
-        [name]: validation[name] ? validation[name](value, name) : null,
-      }
-    }))
+  componentDidUpdate() {
+    this.updateValidation();
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
-    this.props.onComplete(this.state);
+  updateValidation() {
+    this.validation = {
+      username: isRequired,
+      password: isRequired,
+    };
+    if (this.props.action === 'signup') {
+      this.validation.email =
+        (value, name) => isRequired(value, name) || isEmail(value);
+    }
   }
 
-  render() {
-    const Input = ({ name, placeholder, type = 'text' }) => (
-      <p>
+  Input = ({ name, placeholder, type = 'text' }) => (
+    <p>
+      <label>
         <input type={type} name={name} placeholder={placeholder || name}
           value={this.state[name]}
           onChange={this.handleChange} />
@@ -59,14 +55,50 @@ export default class AuthForm extends React.Component {
             {this.state.errors[name]}
           </span>
         )}
-      </p>
-    );
+      </label>
+    </p>
+  );
 
+  handleChange(e) {
+    const { name, value } = e.currentTarget;
+    this.setState(state => ({
+      [name]: value,
+      errors: {
+        ...state.errors,
+        [name]: this.validation[name] ? this.validation[name](value, name) : null,
+      }
+    }))
+  }
+
+  validateAll() {
+    this.setState(state => ({
+      errors: Object.keys(this.validation)
+        .reduce(
+          (errors, name) => {
+            let res = this.validation[name](state[name], name);
+            if (res) { errors[name] = res; }
+            return errors;
+          }, {}),
+    }));
+    return Object.keys(this.state.errors).length === 0;
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    if (this.validateAll())
+      this.props.onComplete(this.state);
+  }
+
+  render() {
+    console.log('render');
     return (
       <form onSubmit={this.handleSubmit} className='user-form'>
-        <Input name='username' />
-        <Input name='password' type='password' />
-        <Input name='fullName' placeholder='full name' />
+        {util.renderIf(this.props.action === 'signup',
+          <this.Input name='email' />
+        )}
+        <this.Input name='username' />
+        <this.Input name='password' type='password' />
+        <this.Input name='fullName' placeholder='full name' />
 
         <button type="submit">{this.props.action}</button>
       </form>
