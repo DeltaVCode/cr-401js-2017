@@ -6,4 +6,4 @@
 	url = https://github.com/DeltaVCode-cr-401js-2017/19-deployment-demo.git
 [submodule "33-photo_uploads/demo/sluggram"]
 	path = 33-photo_uploads/demo/sluggram
-	url = https://github.com/slugbyte/sluggram.git
+	url = https://github.com/DeltaVCode-cr-401js-2017/sluggram.git
