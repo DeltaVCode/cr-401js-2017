@@ -17,3 +17,20 @@ export const filter = (list, ...args) =>
 
 export const reduce = (list, ...args) =>
   Array.prototype.reduce.apply(list, args);
+
+export const photoToDataURL = (file) => {
+  return new Promise((resolve, reject) => {
+    if (!file) {
+      return reject(new Error('USAGE ERROR: file is required'));
+    }
+
+    let reader = new FileReader();
+    reader.addEventListener('load', () => {
+      resolve(reader.result);
+    });
+    reader.addEventListener('error', () => {
+      reject(reader.error);
+    });
+    reader.readAsDataURL(file);
+  });
+};
