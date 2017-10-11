@@ -11,7 +11,7 @@ export const tokenDelete = () => ({
 });
 
 export const signupRequest = (user) => (dispatch) => {
-  return superagent.post(`${__API_URL__}/api/signup`)
+  return superagent.post(`${__API_URL__}/signup`)
     .send(user)
     .then(res => {
       util.log(res);
@@ -27,7 +27,7 @@ export const signupRequest = (user) => (dispatch) => {
 };
 
 export const signinRequest = (user) => (dispatch) => {
-  return superagent.get(`${__API_URL__}/api/signin`)
+  return superagent.get(`${__API_URL__}/signin`)
     .auth(user.username, user.password)
     .then(res => {
       dispatch(tokenSet(res.text));

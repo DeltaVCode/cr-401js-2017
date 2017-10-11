@@ -11,6 +11,7 @@ class SettingsContainer extends React.Component {
   }
 
   handleProfileCreate(profile) {
+    console.log(profile);
   }
 
   handleProfileUpdate(profile) {
@@ -21,15 +22,21 @@ class SettingsContainer extends React.Component {
     return (
       <div className='settings-container'>
         <h2>Profile Settings:</h2>
+        <ProfileForm
+          buttonText='create profile'
+          onComplete={this.handleProfileCreate}
+          />
       </div>
     )
   }
 }
 
 let mapStateToProps = (state) => ({
-})
+  profile: state.profile,
+});
 
 let mapDispatchToProps = (dispatch) => ({
-})
+  profileCreate: (profile) => dispatch(profileCreateRequest(profile)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsContainer);
