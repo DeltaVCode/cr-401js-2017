@@ -1,3 +1,6 @@
 [submodule "32-auth/demo/backend"]
 	path = 32-auth/demo/backend
 	url = https://github.com/dahlbyk-demo/cr-401js-2017-19-deployment.git
+[submodule "33-photo_uploads/demo/backend"]
+	path = 33-photo_uploads/demo/backend
+	url = https://github.com/DeltaVCode-cr-401js-2017/19-deployment-demo.git
