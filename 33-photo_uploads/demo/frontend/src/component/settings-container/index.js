@@ -12,6 +12,11 @@ class SettingsContainer extends React.Component {
 
   handleProfileCreate(profile) {
     console.log(profile);
+    return this.props.profileCreate(profile)
+      .then(res => {
+        console.log('profile created', res);
+      })
+      .catch(console.error);
   }
 
   handleProfileUpdate(profile) {
