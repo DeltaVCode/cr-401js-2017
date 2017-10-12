@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {BrowserRouter, Switch, Route, Link} from 'react-router-dom';
+import NavBar from '../navbar';
 import LandingContainer from '../landing-container';
 import SettingsContainer from '../settings-container';
 import { tokenSet } from '../../action/auth-actions';
@@ -20,13 +21,7 @@ class App extends React.Component {
           <section>
             <header>
               <h1>cfgram</h1>
-              <nav>
-                <ul>
-                  <li><Link to='/welcome/signup'>signup</Link></li>
-                  <li><Link to='/welcome/login'>login</Link></li>
-                  <li><Link to='/settings'>settings</Link></li>
-                </ul>
-              </nav>
+              <Route path='*' component={NavBar} />
             </header>
             <Switch>
               <Route path='/welcome/:auth' component={LandingContainer} />
