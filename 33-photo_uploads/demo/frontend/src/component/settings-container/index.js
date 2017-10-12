@@ -15,6 +15,11 @@ class SettingsContainer extends React.Component {
     return this.props.profileCreate(profile)
       .then(res => {
         console.log('profile created', res);
+        if (this.props.location.search) {
+          // TODO: check for from query parameter
+          console.log(this.props.location.search);
+          // TODO: this.props.history.push(from);
+        }
       })
       .catch(console.error);
   }

@@ -23,6 +23,19 @@ class NavBar extends React.Component {
     this.props.logout();
   };
 
+  componentWillUpdate(nextProps) {
+    const { loggedIn, userProfile, userProfileFetch, match, history } = nextProps;
+    if (loggedIn && !userProfile) {
+      userProfileFetch()
+        .catch(err => {
+          console.warn(err);
+          if (!match.url.startsWith('/settings')) {
+            return history.replace(`/settings?from=${match.url}`);
+          }
+        })
+    }
+  }
+
   render() {
     const { url } = this.props.match;
     return (
@@ -39,8 +52,9 @@ class NavBar extends React.Component {
           </ul>
         }
 
-        {util.renderIf(this.props.userProfile,
-          <span>has profile</span>)}
+        // TODO: Wrap this in a component
+        {this.props.userProfile &&
+          <h3>{this.props.userProfile.username}</h3>}
       </nav>
     );
   }
@@ -49,9 +63,10 @@ class NavBar extends React.Component {
 export default connect(
   state => ({
     loggedIn: !!state.auth,
-    userProfile: state.userProfile,
+    userProfile: state.profile,
   }),
   dispatch => ({
     logout: () => dispatch(authActions.logout()),
+    userProfileFetch: () => dispatch(profileActions.profileFetchRequest()),
   })
 )(NavBar);
