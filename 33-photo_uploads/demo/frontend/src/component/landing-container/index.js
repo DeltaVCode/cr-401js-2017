@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import AuthForm from '../auth-form';
 import * as util from '../../lib/util';
@@ -7,6 +8,10 @@ import { signupRequest, signinRequest } from '../../action/auth-actions';
 
 class LandingContainer extends React.Component {
   render() {
+    if (this.props.loggedIn) {
+      return <Redirect to='/' />;
+    }
+
     const { params } = this.props.match;
 
     let handleComplete = params.auth === 'login' ?
@@ -23,7 +28,9 @@ class LandingContainer extends React.Component {
   }
 }
 
-let mapStateToProps = undefined;
+let mapStateToProps = state => ({
+  loggedIn: !!state.auth,
+});
 let mapDispatchToProps = (dispatch) => ({
   signup: (user) => dispatch(signupRequest(user)),
   signin: (user) => dispatch(signinRequest(user)),

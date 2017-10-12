@@ -9,18 +9,20 @@ const isEmail = (value) => {
   return value && value.indexOf('@') > 1 ? null : `${value} is not an email`;
 }
 
+const defaultState = {
+  username: '',
+  email: '',
+  password: '',
+  fullName: '',
+  error: null,
+  errors: {},
+};
+
 export default class AuthForm extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      username: '',
-      email: '',
-      password: '',
-      fullName: '',
-      error: null,
-      errors: {},
-    };
+    this.state = defaultState;
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -85,8 +87,10 @@ export default class AuthForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    if (this.validateAll())
+    if (this.validateAll()) {
       this.props.onComplete(this.state);
+      this.setState(defaultState);
+    }
   }
 
   render() {
