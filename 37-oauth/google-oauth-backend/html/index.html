@@ -4,18 +4,6 @@
 </head>
 <body>
   <h1>Login?</h1>
-  <script type="text/javascript">
-    let a = document.createElement('a');
-    let AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
-    let clientId = 'client_id=16035112110-ra9mgbo12rfa48e7v9iced2bgf510k5m.apps.googleusercontent.com';
-    let oauthStuff = 'response_type=code&scope=openid%20profile%20email'
-    let redirectUri = 'redirect_uri=http://localhost:3000/oauth/google/code';
-
-    let actualUrl =
-      `${AUTH_URL}?${clientId}&${oauthStuff}&${redirectUri}`;
-    a.setAttribute('href', actualUrl);
-    a.textContent = 'Login with Google!';
-    document.body.appendChild(a);
-  </script>
+  <a href="http://localhost:3000/login/google">Login with Google!</a>
 </body>
 </html>
