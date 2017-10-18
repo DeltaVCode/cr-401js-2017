@@ -1,6 +1,7 @@
 'use strict'
 
 // DEPENDECIES
+import faker from 'faker';
 import * as bcrypt from 'bcrypt'
 import {randomBytes} from 'crypto'
 import * as jwt from 'jsonwebtoken'
@@ -12,7 +13,7 @@ import Mongoose, {Schema} from 'mongoose'
 const userSchema =  new Schema({
   email: {type: String, required: true, unique: true},
   username: {type: String, required: true, unique: true},
-  passwordHash: {type: String, required: true},
+  passwordHash: {type: String },
   tokenSeed: {type: String,  unique: true, default: ''},
 })
 
@@ -53,6 +54,26 @@ User.createFromSignup = function (user) {
   .then(passwordHash => {
     let data = Object.assign({}, user, {passwordHash}) 
     return new User(data).save()
+  })
+}
+
+User.handleOAUTH = function(data) {
+  if (!data || !data.email) {
+    return Promise.reject(createError(400, 'VALIDATION ERROR - missing login info'));
+  }
+
+  return User.findOne({ email: data.email })
+  .then( user => {
+    if (!user) {
+      throw new Error('not found - create a user');
+    }
+    return user;
+  })
+  .catch(() => {
+    return new User({
+      username: faker.internet.userName(),
+      email: data.email
+    }).save();
   })
 }
 
